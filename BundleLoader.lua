@@ -1,8 +1,6 @@
 class "BundleLoader"
 
 local m_Logger = Logger("BundleLoader", true)
-local m_MapManager = require "__shared/Maps/MapManager"
-local m_MapModificationsManager = require "__shared/Maps/Modifications/MapModificationsManager"
 
 local m_BundleConfig = { }
 
@@ -65,14 +63,14 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 		m_Logger:Write(k)
 	end
 
-	local s_Registry = m_MapModificationsManager:GetRegistry()
+	local s_Registry = RegistryContainer()
 
 	for l_RegistryName, l_RegistryDataContainer in pairs(s_RegistriesToLoad) do
 		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
 
 		s_Registry.blueprintRegistry:add(s_LoadedRegistry)
 
-		-- ResourceManager:AddRegistry(l_RegistryDataContainer:GetInstance(), ResourceCompartment.ResourceCompartment_Game)
+		ResourceManager:AddRegistry(s_Registry, ResourceCompartment.ResourceCompartment_Game)
 		m_Logger:Write("Registry - " .. l_RegistryName)
 	end
 end
