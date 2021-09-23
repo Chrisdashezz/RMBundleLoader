@@ -1,6 +1,6 @@
 class "BundleLoader"
 
-local m_Logger = Logger("BundleLoader", true)
+local m_Logger = Logger("BundleLoader", false)
 
 local m_BundleConfig = { }
 
