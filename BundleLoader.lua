@@ -98,7 +98,7 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 	return s_BundleConfig
 end
 
-function BundleLoader:OnLoadResources(p_MapName, p_GameModeName, p_DedicatedServer)
+function BundleLoader:OnLoadResources(p_LevelName, p_GameModeName, p_DedicatedServer)
 	m_BundleConfig = self:GetBundleConfig(GetLevelName(), SharedUtils:GetCurrentGameMode())
 
 	if m_BundleConfig then
