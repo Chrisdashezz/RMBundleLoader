@@ -1,11 +1,11 @@
 return {
 	terrainAssetName = 'levels/xp3_legrandval/terrain/legrandval',
 	superBundles = {
+		'SpChunks',
 		'Levels/SP_Tank/SP_Tank',
 		'Levels/SP_Bank/SP_Bank',
 		'Levels/Coop_006/Coop_006',
 		'Levels/Coop_009/Coop_009',
-		'SpChunks',
 		-- 'Xp5Chunks',
 		-- 'Levels/XP5_001/XP5_001',
 	},
