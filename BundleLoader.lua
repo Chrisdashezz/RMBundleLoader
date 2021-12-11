@@ -1,6 +1,6 @@
 class "BundleLoader"
 
-local m_Logger = Logger("BundleLoader", false)
+local m_Logger = Logger("BundleLoader", true)
 
 local m_BundleConfig = { }
 
@@ -39,8 +39,8 @@ function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
 		table.insert(s_BundlesToLoad, 1, p_Bundles[1])
 
 		m_Logger:Write("Bundles:")
-		for _, v in pairs(s_BundlesToLoad) do
-			m_Logger:Write(v)
+		for l_Index, l_Bundle in pairs(s_BundlesToLoad) do
+			m_Logger:Write("Bundle - " .. l_Index .. ": " .. l_Bundle)
 		end
 
 		p_Hook:Pass(s_BundlesToLoad, p_Compartment)
