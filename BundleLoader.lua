@@ -2,6 +2,7 @@ class "BundleLoader"
 
 local m_Logger = Logger("BundleLoader", true)
 
+local m_LevelName = nil
 local m_BundleConfig = { }
 
 function BundleLoader:__init()
@@ -11,12 +12,16 @@ function BundleLoader:__init()
 end
 
 function BundleLoader:OnTerrainLoad(p_Hook, p_TerrainName)
+	m_Logger:Write("OnTerrainLoad 1")
+
 	if not m_BundleConfig then
+		m_Logger:Write("OnTerrainLoad 2")
 		return
 	end
 
 	if m_BundleConfig.terrainAssetName == nil then
 		m_Logger:Write("Warning: No terrain asset name can found for this map. This means every terrain will be loaded.")
+		m_Logger:Write("OnTerrainLoad 3")
 		return
 	end
 
@@ -24,9 +29,13 @@ function BundleLoader:OnTerrainLoad(p_Hook, p_TerrainName)
 		m_Logger:Write("Preventing load of terrain: " .. p_TerrainName)
 		p_Hook:Return(nil)
 	end
+
+	m_Logger:Write("OnTerrainLoad 4")
 end
 
 function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
+	m_Logger:Write("OnLoadBundles 1")
+
 	if not m_BundleConfig then
 		return
 	end
@@ -36,7 +45,7 @@ function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
 		local s_BundlesToLoad = m_BundleConfig.bundles or { }
 
 		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
-		table.insert(s_BundlesToLoad, 1, p_Bundles[1])
+		table.insert(s_BundlesToLoad, #s_BundlesToLoad + 1, p_Bundles[1])
 
 		m_Logger:Write("Bundles:")
 		for l_Index, l_Bundle in pairs(s_BundlesToLoad) do
@@ -44,10 +53,13 @@ function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
 		end
 
 		p_Hook:Pass(s_BundlesToLoad, p_Compartment)
+
+		m_Logger:Write("OnLoadBundles 2")
 	end
 end
 
 function BundleLoader:OnRegisterEntityResources(p_LevelData)
+	m_Logger:Write("OnRegisterEntityResources 1")
 	local s_RegistriesToLoad = { 
 		-- 'SP_Tank_DesertFort_Registry'
 		DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
@@ -69,6 +81,8 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 
 		ResourceManager:AddRegistry(s_LoadedRegistry, ResourceCompartment.ResourceCompartment_Game)
 	end
+
+	m_Logger:Write("OnRegisterEntityResources 2")
 end
 
  -- Returns "mp_001" from "levels/mp_001/mp_001"
@@ -95,6 +109,15 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 end
 
 function BundleLoader:OnLoadResources(p_LevelName, p_GameModeName, p_DedicatedServer)
+	m_Logger:Write("OnLoadResources 1")
+	if m_LevelName == p_LevelName then
+		m_Logger:Write("Return OnLoadResources, because it is the same level")
+		m_Logger:Write("OnLoadResources 2")
+		return
+	end
+
+	m_LevelName = p_LevelName
+
 	m_BundleConfig = self:GetBundleConfig(GetLevelName(), SharedUtils:GetCurrentGameMode())
 
 	if m_BundleConfig then
@@ -105,6 +128,8 @@ function BundleLoader:OnLoadResources(p_LevelName, p_GameModeName, p_DedicatedSe
 			m_Logger:Write("Superbundle - " .. l_Index .. ": " .. l_SuperBundle)
 		end
 	end
+
+	m_Logger:Write("OnLoadResources 2")
 end
 
 -- Singleton.
