@@ -1,4 +1,5 @@
-class "BundleLoader"
+---@class BundleLoader
+BundleLoader = class "BundleLoader"
 
 local m_Logger = Logger("BundleLoader", false)
 
@@ -33,7 +34,11 @@ function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
 
 	if #p_Bundles == 1 and p_Bundles[1] == SharedUtils:GetLevelName() then
 
-		local s_BundlesToLoad = m_BundleConfig.bundles or { }
+		local s_BundlesToLoad = {}
+
+		for _, l_Bundle in pairs(m_BundleConfig.bundles) do
+			table.insert(s_BundlesToLoad, l_Bundle)
+		end
 
 		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
 		table.insert(s_BundlesToLoad, 1, p_Bundles[1])
@@ -48,7 +53,7 @@ function BundleLoader:OnLoadBundles(p_Hook, p_Bundles, p_Compartment)
 end
 
 function BundleLoader:OnRegisterEntityResources(p_LevelData)
-	local s_RegistriesToLoad = { 
+	local s_RegistriesToLoad = {
 		-- 'SP_Tank_DesertFort_Registry'
 		DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
 		-- 'Coop_006_Registry'
@@ -58,7 +63,7 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 		-- 'SP_Bank_Ride_SUB_Registry'
 		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565'))
 	}
-	
+
 	for l_Index, l_RegistryDataContainer in pairs(s_RegistriesToLoad) do
 		m_Logger:Write(l_Index)
 		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
