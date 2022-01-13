@@ -56,7 +56,10 @@ function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
 		end
 
 		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
-		table.insert(s_BundlesToLoad, 1, p_Bundles[1])
+		-- unless the level being loaded is a singleplayer/coop level, in which case (for an unknown reason) the first bundle cannot be passed back, and must be instead listed in the bundle config
+		if string.find(SharedUtils:GetLevelName(), 'SP_') == nil and string.find(SharedUtils:GetLevelName(), 'COOP_') == nil then
+			table.insert(s_BundlesToLoad, 1, p_Bundles[1])
+		end
 
 		m_Logger:Write("Bundles:")
 		for _, v in pairs(s_BundlesToLoad) do
