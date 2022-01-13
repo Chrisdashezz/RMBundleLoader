@@ -112,9 +112,4 @@ function BundleLoader:OnLoadResources(p_LevelName, p_GameModeName, p_DedicatedSe
 	end
 end
 
--- Singleton.
-if g_BundleLoader == nil then
-	g_BundleLoader = BundleLoader()
-end
-
-return g_BundleLoader
+return BundleLoader()
