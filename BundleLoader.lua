@@ -8,6 +8,7 @@ local m_Logger = Logger("BundleLoader", false)
 ---@field terrainAssetName string
 ---@field superBundles string[]
 ---@field bundles string[]
+---@field blueprintGuidsToBlock boolean[] | nil
 
 ---@type BundleConfigTable
 local m_BundleConfig = { }
@@ -16,6 +17,19 @@ function BundleLoader:__init()
 	m_Logger:Write("BundleLoader init.")
 	Hooks:Install('Terrain:Load', 999, self, self.OnTerrainLoad)
 	Hooks:Install('VisualTerrain:Load', 999, self, self.OnTerrainLoad)
+end
+
+---VEXT Shared EntityFactory:CreateFromBlueprint Hook
+---@param p_HookCtx HookContext
+---@param p_Blueprint DataContainer
+---@param p_Transform LinearTransform
+---@param p_Variation integer
+---@param p_ParentRepresentative DataContainer | nil
+function BundleLoader:OnEntityCreateFromBlueprint(p_HookCtx, p_Blueprint, p_Transform, p_Variation, p_ParentRepresentative)
+	if m_BundleConfig.blueprintGuidsToBlock and m_BundleConfig.blueprintGuidsToBlock[tostring(p_Blueprint.instanceGuid)] then
+		m_Logger:Warning("Blocking blueprint: " .. tostring(p_Blueprint.instanceGuid))
+		p_HookCtx:Return()
+	end
 end
 
 ---VEXT Shared VisualTerrain:Load Hook
