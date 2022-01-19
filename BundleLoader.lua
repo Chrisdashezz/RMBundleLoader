@@ -65,16 +65,15 @@ function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
 		---@type string[]
 		local s_BundlesToLoad = {}
 
+		m_Logger:Write("Bundles:")
 		for _, l_Bundle in pairs(m_BundleConfig.bundles) do
+			m_Logger:Write(l_Bundle)
 			table.insert(s_BundlesToLoad, l_Bundle)
 		end
 
 		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
+		m_Logger:Write(p_Bundles[1])
 		table.insert(s_BundlesToLoad, p_Bundles[1])
-
-		for _, v in pairs(s_BundlesToLoad) do
-			m_Logger:Write(v)
-		end
 
 		p_HookCtx:Pass(s_BundlesToLoad, p_Compartment)
 	end
