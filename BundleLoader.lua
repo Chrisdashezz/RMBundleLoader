@@ -70,9 +70,8 @@ function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
 		end
 
 		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
-		table.insert(s_BundlesToLoad, 1, p_Bundles[1])
+		table.insert(s_BundlesToLoad, p_Bundles[1])
 
-		m_Logger:Write("Bundles:")
 		for _, v in pairs(s_BundlesToLoad) do
 			m_Logger:Write(v)
 		end
