@@ -16,6 +16,8 @@ return {
 		'Levels/SP_Bank/Ride_SUB',
 		'Levels/Coop_006/Coop_006',
 		'Levels/Coop_009/Coop_009',
+		'Levels/Coop_009/ab00_art_parent',
+		'Levels/Coop_009/ab00_art_interior_parent',
 		-- 'Levels/XP5_001/XP5_001',
 		-- 'Levels/XP5_001/Air_Superiority',
 	}
