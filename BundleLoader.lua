@@ -13,6 +13,22 @@ local m_Logger = Logger("BundleLoader", false)
 ---@type BundleConfigTable
 local m_BundleConfig = { }
 
+---@type DC[]
+local m_RegistriesToLoad = {
+	-- 'SP_Tank_DesertFort_Registry'
+	DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
+	-- 'Coop_006_Registry'
+	DC(Guid('23535E3D-E72F-11DF-99CA-879440EEBD7A'), Guid('51C54150-0ABF-03BD-EADE-1876AAD3EC8D')),
+	-- 'Coop_009_Registry'
+	DC(Guid('F94C5091-E69C-11DF-9B0E-AF9CA6E0236B'), Guid('F05798B2-31EC-210D-CC1D-0F7535BECA30')),
+	-- 'SP_Bank_Ride_SUB_Registry'
+	DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565')),
+	-- 'MP_017_R_Registry'
+	DC(Guid('D9E8DC6C-250E-4AF9-9878-07809B5AE5D9'), Guid('33FF3424-F0C5-9A3A-5C0F-A49573416A13')),
+	-- 'MP_013_ConquestLarge_Registry'
+	DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))
+}
+
 function BundleLoader:__init()
 	m_Logger:Write("BundleLoader init.")
 	Hooks:Install('Terrain:Load', 999, self, self.OnTerrainLoad)
@@ -82,29 +98,13 @@ end
 ---VEXT Shared Level:RegisterEntityResources Event
 ---@param p_LevelData DataContainer
 function BundleLoader:OnRegisterEntityResources(p_LevelData)
-	---@type DC[]
-	local s_RegistriesToLoad = {
-		-- 'SP_Tank_DesertFort_Registry'
-		DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
-		-- 'Coop_006_Registry'
-		DC(Guid('23535E3D-E72F-11DF-99CA-879440EEBD7A'), Guid('51C54150-0ABF-03BD-EADE-1876AAD3EC8D')),
-		-- 'Coop_009_Registry'
-		DC(Guid('F94C5091-E69C-11DF-9B0E-AF9CA6E0236B'), Guid('F05798B2-31EC-210D-CC1D-0F7535BECA30')),
-		-- 'SP_Bank_Ride_SUB_Registry'
-		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565')),
-		-- 'MP_017_R_Registry'
-		DC(Guid('D9E8DC6C-250E-4AF9-9878-07809B5AE5D9'), Guid('33FF3424-F0C5-9A3A-5C0F-A49573416A13')),
-		-- 'MP_013_ConquestLarge_Registry'
-		DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))
-	}
-
-	for l_Index, l_RegistryDataContainer in pairs(s_RegistriesToLoad) do
-		m_Logger:Write(l_Index)
+	for l_Index, l_RegistryDataContainer in pairs(m_RegistriesToLoad) do
 		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
 
 		if s_LoadedRegistry == nil then
-			m_Logger:Warning("Couldn\'t find RegistryContainer Guid('" .. tostring(l_RegistryDataContainer.m_InstanceGuid) .. "')")
+			m_Logger:Write("Couldn\'t find RegistryContainer Guid('" .. tostring(l_RegistryDataContainer.m_InstanceGuid) .. "')")
 		else
+			m_Logger:Write("Adding RegistryContainer from " .. s_LoadedRegistry.partition.name)
 			ResourceManager:AddRegistry(s_LoadedRegistry, ResourceCompartment.ResourceCompartment_Game)
 		end
 	end
@@ -132,7 +132,7 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 	local s_Ok, s_BundleConfig = pcall(require, s_Path)
 	s_BundleConfig = s_Ok and s_BundleConfig or nil
 
-	m_Logger:Write("BundleConfig found: " .. s_Path:split('/')[4])
+	m_Logger:Write("BundleConfig found: " .. s_Path:gsub(".*/", ""))
 
 	return s_BundleConfig
 end
