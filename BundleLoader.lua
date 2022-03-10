@@ -5,13 +5,17 @@ BundleLoader = class "BundleLoader"
 local m_Logger = Logger("BundleLoader", false)
 
 ---@class BundleConfigTable
----@field terrainAssetName string
----@field superBundles string[]
----@field bundles string[]
----@field blueprintGuidsToBlock boolean[] | nil
+---@field terrainAssetName string|nil
+---@field superBundles string[]|nil
+---@field bundles string[]|nil
+---@field blueprintGuidsToBlock table<string, boolean>|nil
+---@field registries DC[]|nil
 
 ---@type BundleConfigTable
-local m_BundleConfig = { }
+local m_BundleConfig = {}
+
+---@type BundleConfigTable
+local m_CommonBundleConfig = require "__shared/BundleLoader/LevelBundleConfigs/Common.BundleConfig"
 
 function BundleLoader:__init()
 	m_Logger:Write("BundleLoader init.")
@@ -57,62 +61,87 @@ end
 ---@param p_Bundles string[]
 ---@param p_Compartment ResourceCompartment|integer
 function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
+	if p_Compartment ~= ResourceCompartment.ResourceCompartment_Game then
+		return
+	end
+
 	if not m_BundleConfig then
 		return
 	end
 
-	if #p_Bundles == 1 and p_Bundles[1] == SharedUtils:GetLevelName() then
+	local s_LevelName = SharedUtils:GetLevelName()
+
+	if #p_Bundles == 1 and p_Bundles[1] == s_LevelName then
 		---@type string[]
 		local s_BundlesToLoad = {}
 
+		local s_MainLevelFound = false
+
 		m_Logger:Write("Bundles:")
-		for _, l_Bundle in pairs(m_BundleConfig.bundles) do
-			m_Logger:Write(l_Bundle)
-			table.insert(s_BundlesToLoad, l_Bundle)
+
+		---@param p_BundlesToLoad string[]
+		local function _AddBundles(p_BundlesToLoad)
+			for _, l_Bundle in ipairs(p_BundlesToLoad) do
+				if s_LevelName == l_Bundle then
+					s_MainLevelFound = true
+				end
+
+				m_Logger:Write(l_Bundle)
+				table.insert(s_BundlesToLoad, l_Bundle)
+			end
 		end
 
-		-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
-		m_Logger:Write(p_Bundles[1])
-		table.insert(s_BundlesToLoad, p_Bundles[1])
+		if m_CommonBundleConfig and m_CommonBundleConfig.bundles then
+			_AddBundles(m_CommonBundleConfig.bundles)
+		end
+
+		if m_BundleConfig.bundles then
+			_AddBundles(m_BundleConfig.bundles)
+		end
+
+		if not s_MainLevelFound then
+			-- we hook the first bundle to load other bundles, but we also have to pass the first bundle to the hook
+			m_Logger:Write(p_Bundles[1])
+			table.insert(s_BundlesToLoad, p_Bundles[1])
+		end
 
 		p_HookCtx:Pass(s_BundlesToLoad, p_Compartment)
+	end
+end
+
+---@param p_Registries DC[]
+local function _AddRegistries(p_Registries)
+	for _, l_RegistryDataContainer in ipairs(p_Registries) do
+		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
+
+		if s_LoadedRegistry == nil then
+			m_Logger:Write("Couldn\'t find RegistryContainer Guid('" .. tostring(l_RegistryDataContainer.m_InstanceGuid) .. "')")
+		else
+			m_Logger:Write("Adding RegistryContainer from " .. s_LoadedRegistry.partition.name)
+			ResourceManager:AddRegistry(s_LoadedRegistry, ResourceCompartment.ResourceCompartment_Game)
+		end
 	end
 end
 
 ---VEXT Shared Level:RegisterEntityResources Event
 ---@param p_LevelData DataContainer
 function BundleLoader:OnRegisterEntityResources(p_LevelData)
-	---@type DC[]
-	local s_RegistriesToLoad = {
-		-- 'SP_Tank_DesertFort_Registry'
-		DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
-		-- 'Coop_006_Registry'
-		DC(Guid('23535E3D-E72F-11DF-99CA-879440EEBD7A'), Guid('51C54150-0ABF-03BD-EADE-1876AAD3EC8D')),
-		-- 'Coop_009_Registry'
-		DC(Guid('F94C5091-E69C-11DF-9B0E-AF9CA6E0236B'), Guid('F05798B2-31EC-210D-CC1D-0F7535BECA30')),
-		-- 'SP_Bank_Ride_SUB_Registry'
-		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565')),
-		-- 'MP_017_R_Registry'
-		DC(Guid('D9E8DC6C-250E-4AF9-9878-07809B5AE5D9'), Guid('33FF3424-F0C5-9A3A-5C0F-A49573416A13')),
-		-- 'MP_013_ConquestLarge_Registry'
-		DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))
-	}
+	if not m_BundleConfig then
+		return
+	end
 
-	for l_Index, l_RegistryDataContainer in pairs(s_RegistriesToLoad) do
-		m_Logger:Write(l_Index)
-		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
+	if m_CommonBundleConfig and m_CommonBundleConfig.registries then
+		_AddRegistries(m_CommonBundleConfig.registries)
+	end
 
-		if s_LoadedRegistry == nil then
-			m_Logger:Warning("Couldn\'t find RegistryContainer Guid('" .. tostring(l_RegistryDataContainer.m_InstanceGuid) .. "')")
-		else
-			ResourceManager:AddRegistry(s_LoadedRegistry, ResourceCompartment.ResourceCompartment_Game)
-		end
+	if m_BundleConfig.registries then
+		_AddRegistries(m_BundleConfig.registries)
 	end
 end
 
- -- Returns "mp_001" from "levels/mp_001/mp_001"
- ---@return string
- local function GetLevelName()
+-- Returns "mp_001" from "levels/mp_001/mp_001"
+---@return string
+local function _GetLevelName()
 	local s_LevelName = SharedUtils:GetLevelName()
 
 	if s_LevelName == nil then
@@ -132,9 +161,17 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 	local s_Ok, s_BundleConfig = pcall(require, s_Path)
 	s_BundleConfig = s_Ok and s_BundleConfig or nil
 
-	m_Logger:Write("BundleConfig found: " .. s_Path:split('/')[4])
+	m_Logger:Write("BundleConfig found: " .. s_Path:gsub(".*/", ""))
 
 	return s_BundleConfig
+end
+
+---@param p_SuperBundles string[]
+local function _MountSuperBundles(p_SuperBundles)
+	for l_Index, l_SuperBundle in ipairs(p_SuperBundles) do
+		ResourceManager:MountSuperBundle(l_SuperBundle)
+		m_Logger:Write("Superbundle - " .. l_Index .. ": " .. l_SuperBundle)
+	end
 end
 
 ---VEXT Shared Level:LoadResources Event
@@ -142,16 +179,18 @@ end
 ---@param p_GameModeName string
 ---@param p_IsDedicatedServer boolean
 function BundleLoader:OnLoadResources(p_LevelName, p_GameModeName, p_IsDedicatedServer)
-	m_BundleConfig = self:GetBundleConfig(GetLevelName(), SharedUtils:GetCurrentGameMode())
+	m_BundleConfig = self:GetBundleConfig(_GetLevelName(), SharedUtils:GetCurrentGameMode())
 
-	if m_BundleConfig then
-		---@type string[]
-		local s_SuperBundlesToLoad = m_BundleConfig.superBundles or { }
+	if not m_BundleConfig then
+		return
+	end
 
-		for l_Index, l_SuperBundle in pairs(s_SuperBundlesToLoad) do
-			ResourceManager:MountSuperBundle(l_SuperBundle)
-			m_Logger:Write("Superbundle - " .. l_Index .. ": " .. l_SuperBundle)
-		end
+	if m_CommonBundleConfig and m_CommonBundleConfig.superBundles then
+		_MountSuperBundles(m_CommonBundleConfig.superBundles)
+	end
+
+	if m_BundleConfig.superBundles then
+		_MountSuperBundles(m_BundleConfig.superBundles)
 	end
 end
 
