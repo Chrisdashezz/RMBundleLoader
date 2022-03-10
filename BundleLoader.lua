@@ -139,9 +139,9 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 	end
 end
 
- -- Returns "mp_001" from "levels/mp_001/mp_001"
- ---@return string
- local function _GetLevelName()
+-- Returns "mp_001" from "levels/mp_001/mp_001"
+---@return string
+local function _GetLevelName()
 	local s_LevelName = SharedUtils:GetLevelName()
 
 	if s_LevelName == nil then
