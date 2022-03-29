@@ -82,7 +82,7 @@ function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
 		---@param p_BundlesToLoad string[]
 		local function _AddBundles(p_BundlesToLoad)
 			for _, l_Bundle in ipairs(p_BundlesToLoad) do
-				if s_LevelName == l_Bundle then
+				if s_LevelName == l_Bundle or string.lower(s_LevelName) == l_Bundle then
 					s_MainLevelFound = true
 				end
 
