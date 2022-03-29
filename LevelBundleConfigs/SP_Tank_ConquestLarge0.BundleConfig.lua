@@ -18,5 +18,9 @@ return {
         'levels/sp_tank/desertfort',
         'levels/sp_tank/backdrop',
         'levels/sp_tank/miclicart',
-    }
+    },
+    registries = {
+		-- 'MP_013_ConquestLarge_Registry'
+		DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))
+    },
 }
