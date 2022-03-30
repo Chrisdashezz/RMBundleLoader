@@ -18,6 +18,8 @@ return {
         'levels/sp_tank/desertfort',
         'levels/sp_tank/backdrop',
         'levels/sp_tank/miclicart',
+        'levels/sp_tank/highwayofdeath',
+        'levels/sp_tank/highwayofdeath2',
     },
     registries = {
 		-- 'MP_013_ConquestLarge_Registry'
