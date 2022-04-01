@@ -1,23 +1,15 @@
 return {
 	terrainAssetName = 'levels/XP5_001/terrain/terrainexample',
 	superBundles = {
-		'SpChunks',
-		'Levels/SP_Tank/SP_Tank',
-		'Levels/SP_Bank/SP_Bank',
-		'Xp3Chunks',
-		'Levels/XP3_Alborz/XP3_Alborz'
+		'levels/mp_013/mp_013'
 	},
 	bundles = {
-		'Levels/SP_Tank/SP_Tank',
-		'Levels/SP_Tank/DesertFort',
-		'Levels/SP_Bank/SP_Bank',
-		'Levels/SP_Bank/Ride_SUB',
-		'Levels/XP3_Alborz/XP3_Alborz'
+		'levels/mp_013/mp_013'
 	},
-	registries = {
-		-- 'SP_Tank_DesertFort_Registry'
-		DC(Guid('44234CB8-700B-461D-AF51-4FD9555128A7'), Guid('4C200C23-43D4-27E3-AC17-EBA1030EE457')),
-		-- 'SP_Bank_Ride_SUB_Registry'
-		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565')),
-	},
+	blueprintGuidsToBlock = {
+		-- Architecture/IND_ServiceBuilding_01/IND_ServiceBuilding_01_Destruction
+		["D082A96E-756E-781B-7BD6-6031A52945A6"] = true,
+		-- Architecture/StoreRoom_01/StoreRoom_01_Destruction/
+		["A29933D7-01C5-4934-0033-D639EEA3180D"] = true,
+	}
 }
