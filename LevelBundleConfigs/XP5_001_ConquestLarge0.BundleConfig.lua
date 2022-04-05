@@ -4,7 +4,9 @@ return {
 		'levels/mp_013/mp_013'
 	},
 	bundles = {
-		'levels/mp_013/mp_013'
+		'levels/mp_013/mp_013',
+        'Levels/Coop_009/ab00_art_parent',
+		'Levels/Coop_009/ab00_art_interior_parent'
 	},
 	blueprintGuidsToBlock = {
 		-- Architecture/IND_ServiceBuilding_01/IND_ServiceBuilding_01_Destruction
