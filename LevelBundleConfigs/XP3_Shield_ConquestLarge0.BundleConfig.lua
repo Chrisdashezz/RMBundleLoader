@@ -1,10 +1,11 @@
 return {
 	terrainAssetName = 'levels/xp3_legrandval/terrain/legrandval',
 	superBundles = {
-		'levels/mp_013/mp_013'
+		'Xp3Chunks',
+		'Levels/XP3_Alborz/XP3_Alborz'
 	},
 	bundles = {
-		'levels/mp_013/mp_013',
+		'Levels/XP3_Alborz/XP3_Alborz'
 	},
 	blueprintGuidsToBlock = {
 	}
