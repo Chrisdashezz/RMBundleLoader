@@ -11,7 +11,7 @@ local m_Logger = Logger("BundleLoader", false)
 ---@field blueprintGuidsToBlock table<string, boolean>|nil
 ---@field registries DC[]|nil
 
----@type BundleConfigTable
+---@type BundleConfigTable?
 local m_BundleConfig = {}
 
 ---@type BundleConfigTable
@@ -30,7 +30,7 @@ end
 ---@param p_Variation integer
 ---@param p_ParentRepresentative DataContainer | nil
 function BundleLoader:OnEntityCreateFromBlueprint(p_HookCtx, p_Blueprint, p_Transform, p_Variation, p_ParentRepresentative)
-	if m_BundleConfig.blueprintGuidsToBlock and m_BundleConfig.blueprintGuidsToBlock[tostring(p_Blueprint.instanceGuid)] then
+	if m_BundleConfig and m_BundleConfig.blueprintGuidsToBlock and m_BundleConfig.blueprintGuidsToBlock[tostring(p_Blueprint.instanceGuid)] then
 		m_Logger:Warning("Blocking blueprint: " .. tostring(p_Blueprint.instanceGuid))
 		p_HookCtx:Return()
 	end
@@ -140,7 +140,7 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 end
 
 -- Returns "mp_001" from "levels/mp_001/mp_001"
----@return string
+---@return string?, integer?
 local function _GetLevelName()
 	local s_LevelName = SharedUtils:GetLevelName()
 
@@ -151,10 +151,15 @@ local function _GetLevelName()
 	return s_LevelName:gsub(".*/", "")
 end
 
----@param p_LevelName string
----@param p_GameModeName string
----@return BundleConfigTable
+---@param p_LevelName string?
+---@param p_GameModeName string?
+---@return BundleConfigTable?
 function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
+	if not p_LevelName or not p_GameModeName then
+		return nil
+	end
+
+	p_GameModeName = p_GameModeName:gsub(" ", "_")
 	---@type string
 	local s_Path = '__shared/BundleLoader/LevelBundleConfigs/' .. p_LevelName .. '_' .. p_GameModeName .. '.BundleConfig'
 
