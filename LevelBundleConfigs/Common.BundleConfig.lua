@@ -5,6 +5,7 @@ return {
 		'Levels/SP_Bank/SP_Bank',
 		'Levels/Coop_006/Coop_006',
 		'Levels/Coop_009/Coop_009',
+		'levels/mp_013/mp_013'
 	},
 	bundles = {
 		'Levels/SP_Tank/SP_Tank',
@@ -13,6 +14,8 @@ return {
 		'Levels/SP_Bank/Ride_SUB',
 		'Levels/Coop_006/Coop_006',
 		'Levels/Coop_009/Coop_009',
+		'levels/mp_013/mp_013',
+		'levels/mp_013/conquestlarge',
 	},
 	registries = {
 		-- 'SP_Tank_DesertFort_Registry'
@@ -22,6 +25,8 @@ return {
 		-- 'Coop_009_Registry'
 		DC(Guid('F94C5091-E69C-11DF-9B0E-AF9CA6E0236B'), Guid('F05798B2-31EC-210D-CC1D-0F7535BECA30')),
 		-- 'SP_Bank_Ride_SUB_Registry'
-		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565'))
+		DC(Guid('8148A1BB-8F21-4E40-8A8F-2126000ABCD4'), Guid('9F9CABAF-21C2-EF4A-B35D-4358AEBA7565')),
+		-- 'MP_013_ConquestLarge_Registry'
+		DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065')),
 	}
 }

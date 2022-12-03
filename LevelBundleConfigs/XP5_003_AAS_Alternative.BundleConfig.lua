@@ -1,12 +1,7 @@
 return {
 	terrainAssetName = 'Levels/XP5_003/XP5_003_Terrain/XP5_003_Terrain',
-	superBundles = {
-		'levels/mp_013/mp_013'
-	},
-	bundles = {
-		'levels/mp_013/mp_013',
-		'levels/mp_013/conquestlarge'
-	},
+	superBundles = {},
+	bundles = {},
 	registries = {
 		-- 'MP_013_ConquestLarge_Registry'
 		DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))

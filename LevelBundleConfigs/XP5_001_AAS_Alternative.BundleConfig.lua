@@ -1,11 +1,9 @@
 return {
 	terrainAssetName = 'levels/XP5_001/terrain/terrainexample',
 	superBundles = {
-		'levels/mp_013/mp_013'
 	},
 	bundles = {
-		'levels/mp_013/mp_013',
-        'Levels/Coop_009/ab00_art_parent',
+		'Levels/Coop_009/ab00_art_parent',
 		'Levels/Coop_009/ab00_art_interior_parent'
 	},
 	blueprintGuidsToBlock = {

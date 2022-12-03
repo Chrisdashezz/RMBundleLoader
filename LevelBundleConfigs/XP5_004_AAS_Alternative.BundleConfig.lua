@@ -2,12 +2,10 @@ return {
 	terrainAssetName = 'levels/XP5_004/XP5_004_Terrain/XP5_004_Terrain',
 	superBundles = {
 		'Xp3Chunks',
-		'Levels/XP3_Alborz/XP3_Alborz'
+		'Levels/XP3_Alborz/XP3_Alborz',
 	},
 	bundles = {
 		'Levels/XP3_Alborz/XP3_Alborz',
-		'levels/mp_013/mp_013',
-		'levels/mp_013/conquestlarge',
 	},
 	blueprintGuidsToBlock = {
 		-- Architecture/IND_ServiceBuilding_01/IND_ServiceBuilding_01_Destruction
