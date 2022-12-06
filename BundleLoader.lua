@@ -2,14 +2,16 @@
 BundleLoader = class "BundleLoader"
 
 ---@type Logger
-local m_Logger = Logger("BundleLoader", false)
+local m_Logger = Logger("BundleLoader", true)
 
 ---@class BundleConfigTable
 ---@field terrainAssetName string|nil
 ---@field superBundles string[]|nil
 ---@field bundles string[]|nil
+---@field dynamicBundles string[]|nil
 ---@field blueprintGuidsToBlock table<string, boolean>|nil
 ---@field registries DC[]|nil
+---@field dynamicRegistries DC[]|nil
 
 ---@type BundleConfigTable?
 local m_BundleConfig = {}
@@ -61,11 +63,38 @@ end
 ---@param p_Bundles string[]
 ---@param p_Compartment ResourceCompartment|integer
 function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
-	if p_Compartment ~= ResourceCompartment.ResourceCompartment_Game then
+	if not m_BundleConfig then
 		return
 	end
 
-	if not m_BundleConfig then
+	if p_Compartment == ResourceCompartment.ResourceCompartment_Dynamic_Begin_ then
+		local s_BundlesToLoad = {}
+
+		m_Logger:Write("Dynamic Bundles:")
+
+		local function _AddBundles(p_BundlesToLoad)
+			for _, l_Bundle in ipairs(p_BundlesToLoad) do
+				m_Logger:Write(l_Bundle)
+				table.insert(s_BundlesToLoad, l_Bundle)
+			end
+		end
+
+		if m_CommonBundleConfig and m_CommonBundleConfig.dynamicBundles then
+			_AddBundles(m_CommonBundleConfig.dynamicBundles)
+		end
+
+		if m_BundleConfig.dynamicBundles then
+			_AddBundles(m_BundleConfig.dynamicBundles)
+		end
+
+		for _, l_Bundle in ipairs(p_Bundles) do
+			m_Logger:Write(l_Bundle)
+			table.insert(s_BundlesToLoad, l_Bundle)
+		end
+
+		p_HookCtx:Pass(s_BundlesToLoad, p_Compartment)
+		return
+	elseif p_Compartment ~= ResourceCompartment.ResourceCompartment_Game then
 		return
 	end
 
@@ -110,7 +139,8 @@ function BundleLoader:OnLoadBundles(p_HookCtx, p_Bundles, p_Compartment)
 end
 
 ---@param p_Registries DC[]
-local function _AddRegistries(p_Registries)
+---@param p_Compartment ResourceCompartment
+local function _AddRegistries(p_Registries, p_Compartment)
 	for _, l_RegistryDataContainer in ipairs(p_Registries) do
 		local s_LoadedRegistry = l_RegistryDataContainer:GetInstance()
 
@@ -118,7 +148,7 @@ local function _AddRegistries(p_Registries)
 			m_Logger:Write("Couldn\'t find RegistryContainer Guid('" .. tostring(l_RegistryDataContainer.m_InstanceGuid) .. "')")
 		else
 			m_Logger:Write("Adding RegistryContainer from " .. s_LoadedRegistry.partition.name)
-			ResourceManager:AddRegistry(s_LoadedRegistry, ResourceCompartment.ResourceCompartment_Game)
+			ResourceManager:AddRegistry(s_LoadedRegistry, p_Compartment)
 		end
 	end
 end
@@ -130,12 +160,24 @@ function BundleLoader:OnRegisterEntityResources(p_LevelData)
 		return
 	end
 
-	if m_CommonBundleConfig and m_CommonBundleConfig.registries then
-		_AddRegistries(m_CommonBundleConfig.registries)
+	if m_CommonBundleConfig then
+		if m_CommonBundleConfig.registries then
+			_AddRegistries(m_CommonBundleConfig.registries, ResourceCompartment.ResourceCompartment_Game)
+		end
+
+		if m_CommonBundleConfig.dynamicRegistries then
+			_AddRegistries(m_CommonBundleConfig.dynamicRegistries, ResourceCompartment.ResourceCompartment_Dynamic_Begin_)
+		end
 	end
 
-	if m_BundleConfig.registries then
-		_AddRegistries(m_BundleConfig.registries)
+	if m_BundleConfig then
+		if m_BundleConfig.registries then
+			_AddRegistries(m_BundleConfig.registries, ResourceCompartment.ResourceCompartment_Game)
+		end
+
+		if m_BundleConfig.dynamicRegistries then
+			_AddRegistries(m_BundleConfig.dynamicRegistries, ResourceCompartment.ResourceCompartment_Dynamic_Begin_)
+		end
 	end
 end
 
