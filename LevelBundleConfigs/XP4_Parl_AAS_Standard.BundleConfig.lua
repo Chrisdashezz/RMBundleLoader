@@ -6,7 +6,7 @@ return {
 	},
 	bundles = {
 		'Levels/Coop_010/Coop_010',
-		'Levels/FrontEnd/FrontEnd'
+		'Levels/FrontEnd/FrontEnd' --For mp characters, effects and all weapons
 	},
 	registries = {
 		-- 'FrontEnd_Registry'

@@ -6,7 +6,7 @@ return {
 	bundles = {
 		'Levels/Coop_009/AB00_Art_Parent',
 		'Levels/Coop_009/AB00_Art_Interior_Parent',
-		'Levels/MP_013/MP_013'
+		'Levels/MP_013/MP_013' -- For vodnik
 	},
 	dynamicBundles = {
 		'Levels/MP_013/ConquestLarge'
