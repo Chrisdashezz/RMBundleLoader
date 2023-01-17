@@ -201,7 +201,6 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 		return nil
 	end
 
-	p_GameModeName = p_GameModeName:gsub(" ", "_")
 	---@type string
 	local s_Path = '__shared/BundleLoader/LevelBundleConfigs/' .. p_LevelName .. '.BundleConfig'
 
