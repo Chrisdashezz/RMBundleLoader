@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"ASS_Standard",
-			"ASS_Alternate",
+			"AAS Standard",
+			"AAS Alternative",
 			"ConquestLarge0"
 		},
 		config = {
@@ -32,7 +32,7 @@ return {
 	},
 	{
 		gamemodes = {
-			"SKR_Standard",
+			"SKR Standard",
 		},
 		config = {
 			terrainAssetName = 'levels/XP5_001/terrain/terrainexample',

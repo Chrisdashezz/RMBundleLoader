@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"ASS_Standard",
-			"ASS_Alternate",
+			"AAS Standard",
+			"AAS Alternative",
 			"ConquestLarge0"
 		},
 		config = {
@@ -14,7 +14,7 @@ return {
 			},
 			bundles = {
 				'Levels/XP3_Alborz/XP3_Alborz',
-				'Levels/MP_013/MP_013'-- For vodnik
+				'Levels/MP_013/MP_013' -- For vodnik
 			},
 			dynamicBundles = {
 				'Levels/MP_013/ConquestLarge'
@@ -41,7 +41,7 @@ return {
 	},
 	{
 		gamemodes = {
-			"SKR_Standard",
+			"SKR Standard",
 		},
 		config = {
 			terrainAssetName = 'levels/XP5_004/XP5_004_Terrain/XP5_004_Terrain',

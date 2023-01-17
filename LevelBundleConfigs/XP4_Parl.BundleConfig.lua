@@ -1,10 +1,10 @@
 return {
 	{
 		gamemodes = {
-			"ASS_Standard",
-			"ASS_Alternate",
+			"AAS Standard",
+			"AAS Alternative",
 			"ConquestLarge0",
-			"SKR_Standard",
+			"SKR Standard",
 		},
 		config = {
 			terrainAssetName = 'Levels/XP4_Parliament/Terrain_Parliament/Terrain_Parliament',

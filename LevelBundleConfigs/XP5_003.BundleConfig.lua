@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"ASS_Standard",
-			"ASS_Alternate",
+			"AAS Standard",
+			"AAS Alternative",
 			"ConquestLarge0"
 		},
 		config = {
