@@ -203,10 +203,38 @@ function BundleLoader:GetBundleConfig(p_LevelName, p_GameModeName)
 
 	p_GameModeName = p_GameModeName:gsub(" ", "_")
 	---@type string
-	local s_Path = '__shared/BundleLoader/LevelBundleConfigs/' .. p_LevelName .. '_' .. p_GameModeName .. '.BundleConfig'
+	local s_Path = '__shared/BundleLoader/LevelBundleConfigs/' .. p_LevelName .. '.BundleConfig'
 
-	local s_Ok, s_BundleConfig = pcall(require, s_Path)
-	s_BundleConfig = s_Ok and s_BundleConfig or nil
+	local s_Ok, s_BundleMapConfigs = pcall(require, s_Path)
+	s_BundleMapConfigs = s_Ok and s_BundleMapConfigs or nil
+
+	if not s_BundleMapConfigs then
+		m_Logger:Warning('No map config found for map ' .. p_LevelName)
+		return
+	end
+
+	local s_BundleConfig
+
+	for _, l_ConfigEntry in ipairs(s_BundleMapConfigs) do
+		local s_GamemodeFound = false
+
+		for _, l_Gamemode in ipairs(l_ConfigEntry.gamemodes) do
+			if l_Gamemode == p_GameModeName then
+				s_GamemodeFound = true
+				break
+			end
+		end
+
+		if s_GamemodeFound then
+			s_BundleConfig = l_ConfigEntry.config
+			break
+		end
+	end
+
+	if s_BundleConfig == nil then
+		m_Logger:Warning('No bundle config found for map ' .. p_LevelName .. ' and gamemode ' .. p_GameModeName)
+		return
+	end
 
 	m_Logger:Write("BundleConfig found: " .. s_Path:gsub(".*/", ""))
 
