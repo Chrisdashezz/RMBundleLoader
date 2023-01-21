@@ -1,6 +1,6 @@
 return {
 	gamemodes = {
-		"AAS_Standard",
+		"AAS Standard",
 		"AAS Alternative",
 		"ConquestLarge0",
 		"SKR Standard",
