@@ -2,7 +2,7 @@
 BundleLoader = class "BundleLoader"
 
 ---@type Logger
-local m_Logger = Logger("BundleLoader", true)
+local m_Logger = Logger("BundleLoader", false)
 
 ---@class BundleConfigTable
 ---@field terrainAssetName string|nil
