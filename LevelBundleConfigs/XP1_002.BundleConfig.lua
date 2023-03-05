@@ -1,10 +1,10 @@
 return {
 	{
 		gamemodes = {
-			"AAS Standard",
-			"AAS Alternative",
+			"AssaultAndSecureStd",
+			"AssaultAndSecureAlt",
 			"ConquestLarge0",
-			"SKR Standard",
+			"SkirmishStd",
 		},
 		config = {
 			terrainAssetName = 'Levels/XP1_002/Terrain_2/GulfTerrain_03',

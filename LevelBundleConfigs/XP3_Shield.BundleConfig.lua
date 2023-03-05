@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"AAS Standard",
-			"AAS Alternative",
+			"AssaultAndSecureStd",
+			"AssaultAndSecureAlt",
 			"ConquestLarge0"
 		},
 		config = {
@@ -27,7 +27,7 @@ return {
 	},
 	{
 		gamemodes = {
-			"SKR Standard",
+			"SkirmishStd",
 		},
 		config = {
 			terrainAssetName = 'levels/xp3_legrandval/terrain/legrandval',

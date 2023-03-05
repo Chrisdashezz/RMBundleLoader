@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"AAS Standard",
-			"AAS Alternative",
+			"AssaultAndSecureStd",
+			"AssaultAndSecureAlt",
 			"ConquestAssaultLarge0"
 		},
 		config = {
@@ -26,7 +26,7 @@ return {
 	},
 	{
 		gamemodes = {
-			"SKR Standard",
+			"SkirmishStd",
 		},
 		config = {
 			terrainAssetName = 'Levels/XP1_001/XPACK1_001_Terrain',

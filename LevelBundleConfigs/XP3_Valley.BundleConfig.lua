@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"AAS Standard",
-			"AAS Alternative",
+			"AssaultAndSecureStd",
+			"AssaultAndSecureAlt",
 			"ConquestLarge0"
 		},
 		config = {
@@ -32,7 +32,7 @@ return {
 	},
 	{
 		gamemodes = {
-			"SKR Standard",
+			"SkirmishStd",
 		},
 		config = {
 			terrainAssetName = 'Levels/MP_Canyon/MP_Canyon_Terrain/MP_Canyon_Terrain/MP_Canyon_Terrain',
