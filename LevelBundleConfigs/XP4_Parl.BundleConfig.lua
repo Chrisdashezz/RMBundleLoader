@@ -1,8 +1,8 @@
 return {
 	{
 		gamemodes = {
-			"AssaultAndSecureStd",
-			"AssaultAndSecureAlt",
+			"AdvanceAndSecureStd",
+			"AdvanceAndSecureAlt",
 			"ConquestLarge0",
 			"SkirmishStd",
 		},
