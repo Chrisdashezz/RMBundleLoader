@@ -17,5 +17,5 @@ return {
 				'Levels/XP5_001/Air_Superiority'
 			}
 		}
-	},
+	}
 }

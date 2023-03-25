@@ -3,7 +3,8 @@ return {
 		gamemodes = {
 			"AdvanceAndSecureStd",
 			"AdvanceAndSecureAlt",
-			"ConquestLarge0"
+			"ConquestLarge0",
+			"SkirmishStd"
 		},
 		config = {
 			terrainAssetName = 'levels/XP5_004/XP5_004_Terrain/XP5_004_Terrain',
@@ -36,21 +37,6 @@ return {
 				["89239BA3-EA21-B844-EDCE-9F1D9BB33526"] = true,
 				-- Architecture/WareHouse_System_01/WareHouse_Wall_Corner_Windows_01_Destruction
 				["CAF59842-399D-0F1D-C587-B8655FE0B670"] = true
-			}
-		}
-	},
-	{
-		gamemodes = {
-			"SkirmishStd",
-		},
-		config = {
-			terrainAssetName = 'levels/XP5_004/XP5_004_Terrain/XP5_004_Terrain',
-			superBundles = {
-				'Xp3Chunks',
-				'Levels/XP3_Alborz/XP3_Alborz'
-			},
-			bundles = {
-				'Levels/XP3_Alborz/XP3_Alborz'
 			}
 		}
 	}
