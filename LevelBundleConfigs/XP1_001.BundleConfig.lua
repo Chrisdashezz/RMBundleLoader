@@ -3,7 +3,8 @@ return {
 		gamemodes = {
 			"AdvanceAndSecureStd",
 			"AdvanceAndSecureAlt",
-			"ConquestAssaultLarge0"
+			"ConquestAssaultLarge0",
+			"SkirmishStd"
 		},
 		config = {
 			terrainAssetName = 'Levels/XP1_001/XPACK1_001_Terrain',
@@ -21,20 +22,6 @@ return {
 			dynamicRegistries = {
 				-- 'MP_013_ConquestLarge_Registry'
 				DC(Guid('1CEC6C7E-1629-4631-B326-1A134BC6EF27'), Guid('6196137B-50D6-4607-98AE-900BACF47065'))
-			}
-		}
-	},
-	{
-		gamemodes = {
-			"SkirmishStd",
-		},
-		config = {
-			terrainAssetName = 'Levels/XP1_001/XPACK1_001_Terrain',
-			superBundles = {
-				'Levels/Coop_010/Coop_010'
-			},
-			bundles = {
-				'Levels/Coop_010/Coop_010'
 			}
 		}
 	}
